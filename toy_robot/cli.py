@@ -6,7 +6,7 @@ from toy_robot.core import Robot
 def main():
     robot = Robot()
     for line in fileinput.input():
-        robot.process_command(line)
+        robot.process_command(line.strip())
 
 
 if __name__ == '__main__':
