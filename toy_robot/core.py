@@ -36,7 +36,7 @@ class Robot:
         if cmd == "MOVE":
             self.move()
         elif cmd == "REPORT":
-            print(self.report())
+            return self.report()
         elif cmd == "LEFT":
             self.left()
         elif cmd == "RIGHT":

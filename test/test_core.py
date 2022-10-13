@@ -29,12 +29,10 @@ def test_process_command_report(mocker: MockFixture, placed_robot, capsys):
     expected_report_return = "0,0,NORTH"
     mock_report.return_value = expected_report_return
 
-    placed_robot.process_command("REPORT")
+    ret = placed_robot.process_command("REPORT")
 
     mock_report.assert_called_once()
-    captured = capsys.readouterr()
-    # Check if report is printed
-    assert captured.out == f"{expected_report_return}\n"
+    assert ret == expected_report_return
 
 
 def test_process_command_left(mocker: MockFixture, placed_robot):
