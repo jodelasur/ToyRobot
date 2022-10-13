@@ -82,32 +82,32 @@ def test_place_invalid_f_ignored():
     assert (robot.x, robot.y, robot.f) == (None, None, None)
 
 
-@pytest.mark.parametrize('f,place_after_move', [
-    ("NORTH", (1, 2, "NORTH")),
-    ("EAST", (2, 1, "EAST")),
-    ("SOUTH", (1, 0, "SOUTH")),
-    ("WEST", (0, 1, "WEST")),
+@pytest.mark.parametrize('f,new_x,new_y', [
+    ("NORTH", 1, 2),
+    ("EAST", 2, 1),
+    ("SOUTH", 1, 0),
+    ("WEST", 0, 1),
 ])
-def test_move(f, place_after_move):
+def test_move(f, new_x, new_y):
     robot = Robot()
     robot.place(1, 1, f)
     robot.move()
-    assert (robot.x, robot.y, robot.f) == place_after_move
+    assert (robot.x, robot.y, robot.f) == (new_x, new_y, f)
 
 
-@pytest.mark.parametrize('destruction_place_args', [
+@pytest.mark.parametrize('x,y,f', [
     *[(i, 0, "SOUTH") for i in range(DIMENSIONS)],
     *[(DIMENSIONS - 1, i, "EAST") for i in range(DIMENSIONS)],
     *[(i, DIMENSIONS - 1, "NORTH") for i in range(DIMENSIONS)],
     *[(0, i, "WEST") for i in range(DIMENSIONS)],
 ])
-def test_move_prevent_destruction(destruction_place_args):
+def test_move_prevent_destruction(x, y, f):
     robot = Robot()
-    robot.place(*destruction_place_args)
+    robot.place(x, y, f)
     robot.move()
 
     # Robot doesn't move; fall to destruction prevented
-    assert (robot.x, robot.y, robot.f) == destruction_place_args
+    assert (robot.x, robot.y, robot.f) == (x, y, f)
 
 
 def test_report(placed_robot):
