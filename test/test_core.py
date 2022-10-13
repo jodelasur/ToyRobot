@@ -62,6 +62,20 @@ def test_place_again_after_placed(placed_robot):
     assert (placed_robot.x, placed_robot.y, placed_robot.f) == (2, 2, "NORTH")
 
 
+@pytest.mark.parametrize('x', [-1, DIMENSIONS])
+def test_place_ignore_if_x_out_of_bounds(x):
+    robot = Robot()
+    robot.place(x, 0, "NORTH")
+    assert (robot.x, robot.y, robot.f) == (None, None, None)
+
+
+@pytest.mark.parametrize('y', [-1, DIMENSIONS])
+def test_place_ignore_if_y_out_of_bounds(y):
+    robot = Robot()
+    robot.place(0, y, "NORTH")
+    assert (robot.x, robot.y, robot.f) == (None, None, None)
+
+
 def test_place_invalid_f_ignored():
     robot = Robot()
     robot.place(0, 0, "SOMEWHERE")
@@ -83,8 +97,8 @@ def test_move(f, place_after_move):
 
 @pytest.mark.parametrize('destruction_place_args', [
     *[(i, 0, "SOUTH") for i in range(DIMENSIONS)],
-    *[(DIMENSIONS, i, "EAST") for i in range(DIMENSIONS)],
-    *[(i, DIMENSIONS, "NORTH") for i in range(DIMENSIONS)],
+    *[(DIMENSIONS - 1, i, "EAST") for i in range(DIMENSIONS)],
+    *[(i, DIMENSIONS - 1, "NORTH") for i in range(DIMENSIONS)],
     *[(0, i, "WEST") for i in range(DIMENSIONS)],
 ])
 def test_move_prevent_destruction(destruction_place_args):

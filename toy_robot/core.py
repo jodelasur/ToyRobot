@@ -43,7 +43,7 @@ class Robot:
             self.right()
 
     def place(self, x: int, y: int, f: str):
-        if f not in DIRECTIONS:
+        if self.is_out_of_bounds(x) or self.is_out_of_bounds(y) or f not in DIRECTIONS:
             return
 
         self.x = x
@@ -78,3 +78,7 @@ class Robot:
     @ignore_until_placed
     def right(self):
         self.f = RIGHT[self.f]
+
+    @staticmethod
+    def is_out_of_bounds(coord: int):
+        return coord < 0 or coord >= DIMENSIONS
