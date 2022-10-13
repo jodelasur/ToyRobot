@@ -62,6 +62,12 @@ def test_place_again_after_placed(placed_robot):
     assert (placed_robot.x, placed_robot.y, placed_robot.f) == (2, 2, "NORTH")
 
 
+def test_place_invalid_f_ignored():
+    robot = Robot()
+    robot.place(0, 0, "SOMEWHERE")
+    assert (robot.x, robot.y, robot.f) == (None, None, None)
+
+
 @pytest.mark.parametrize('f,place_after_move', [
     ("NORTH", (1, 2, "NORTH")),
     ("EAST", (2, 1, "EAST")),

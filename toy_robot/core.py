@@ -43,6 +43,9 @@ class Robot:
             self.right()
 
     def place(self, x: int, y: int, f: str):
+        if f not in DIRECTIONS:
+            return
+
         self.x = x
         self.y = y
         self.f = f
