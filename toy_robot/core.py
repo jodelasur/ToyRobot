@@ -7,6 +7,18 @@ RIGHT = {DIRECTIONS[i]: DIRECTIONS[(i + 1) % len(DIRECTIONS)] for i in range(len
 
 DIMENSIONS = 5
 
+
+def ignore_until_placed(function):
+    def wrapper(*args, **kwargs):
+        self = args[0]
+        # If robot is not yet placed, ignore
+        if any([item is None for item in (self.x, self.y, self.f)]):
+            return
+        return function(*args, **kwargs)
+
+    return wrapper
+
+
 class Robot:
     def __init__(self):
         self.x = None
@@ -35,6 +47,7 @@ class Robot:
         self.y = y
         self.f = f
 
+    @ignore_until_placed
     def move(self):
         new_pos = self.x, self.y
 
@@ -51,11 +64,14 @@ class Robot:
         if not any([coord < 0 or coord >= DIMENSIONS for coord in new_pos]):
             self.x, self.y = new_pos
 
+    @ignore_until_placed
     def report(self):
         return f"{self.x},{self.y},{self.f}"
 
+    @ignore_until_placed
     def left(self):
         self.f = LEFT[self.f]
 
+    @ignore_until_placed
     def right(self):
         self.f = RIGHT[self.f]
