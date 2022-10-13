@@ -1,10 +1,12 @@
 import fileinput
 
+from toy_robot.core import Robot
+
 
 def main():
-    table = Table()
+    robot = Robot()
     for line in fileinput.input():
-        table.process_command(line)
+        robot.process_command(line)
 
 
 if __name__ == '__main__':
