@@ -1,7 +1,8 @@
 import pytest
 from pytest_mock import MockFixture
 
-from toy_robot.core import Robot
+from toy_robot.core import Robot, DIMENSIONS
+
 
 @pytest.fixture
 def placed_robot():
@@ -61,6 +62,21 @@ def test_move(placed_robot):
     assert placed_robot.x == 0
     assert placed_robot.y == 1
     assert placed_robot.f == "NORTH"
+
+
+@pytest.mark.parametrize('destruction_place_args', [
+    *[(i, 0, "SOUTH") for i in range(DIMENSIONS)],
+    *[(DIMENSIONS, i, "EAST") for i in range(DIMENSIONS)],
+    *[(i, DIMENSIONS, "NORTH") for i in range(DIMENSIONS)],
+    *[(0, i, "WEST") for i in range(DIMENSIONS)],
+])
+def test_move_prevent_destruction(destruction_place_args):
+    robot = Robot()
+    robot.place(*destruction_place_args)
+    robot.move()
+
+    # Robot doesn't move; fall to destruction prevented
+    assert (robot.x, robot.y, robot.f) == destruction_place_args
 
 
 def test_report(placed_robot):
