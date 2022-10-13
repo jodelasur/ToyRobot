@@ -57,7 +57,7 @@ class Robot:
         if self.f == "NORTH":
             new_pos = self.x, self.y + 1
         elif self.f == "SOUTH":
-            new_pos = self.y, self.y - 1
+            new_pos = self.x, self.y - 1
         elif self.f == "EAST":
             new_pos = self.x + 1, self.y
         elif self.f == "WEST":

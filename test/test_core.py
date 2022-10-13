@@ -83,14 +83,14 @@ def test_place_invalid_f_ignored():
 
 
 @pytest.mark.parametrize('f,new_x,new_y', [
-    ("NORTH", 1, 2),
-    ("EAST", 2, 1),
-    ("SOUTH", 1, 0),
-    ("WEST", 0, 1),
+    ("NORTH", 1, 4),
+    ("EAST", 2, 3),
+    ("SOUTH", 1, 2),
+    ("WEST", 0, 3),
 ])
 def test_move(f, new_x, new_y):
     robot = Robot()
-    robot.place(1, 1, f)
+    robot.place(1, 3, f)
     robot.move()
     assert (robot.x, robot.y, robot.f) == (new_x, new_y, f)
 
@@ -155,3 +155,11 @@ def test_ignore_until_first_place():
     robot.report()
 
     assert (robot.x, robot.y, robot.f) == (None, None, None)
+
+
+def test_bug_1():
+    robot = Robot()
+    robot.place(4, 2, "EAST")
+    robot.right()
+    robot.move()
+    assert robot.report() == f"4,1,SOUTH"
