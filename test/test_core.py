@@ -23,6 +23,19 @@ def test_process_command_move(mocker: MockFixture, placed_robot):
     mock_move.assert_called_once()
 
 
+def test_process_command_report(mocker: MockFixture, placed_robot, capsys):
+    mock_report = mocker.patch('toy_robot.core.Robot.report')
+    expected_report_return = "0,0,NORTH"
+    mock_report.return_value = expected_report_return
+
+    placed_robot.process_command("REPORT")
+
+    mock_report.assert_called_once()
+    captured = capsys.readouterr()
+    # Check if report is printed
+    assert captured.out == f"{expected_report_return}\n"
+
+
 def test_process_command_left(mocker: MockFixture, placed_robot):
     mock_left = mocker.patch('toy_robot.core.Robot.left')
     placed_robot.process_command("LEFT")
@@ -42,6 +55,11 @@ def test_move(placed_robot):
     assert placed_robot.x == 0
     assert placed_robot.y == 1
     assert placed_robot.f == "NORTH"
+
+
+def test_report(placed_robot):
+    result = placed_robot.report()
+    assert result == "0,0,NORTH"
 
 
 def test_left():

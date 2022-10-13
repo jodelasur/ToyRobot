@@ -17,6 +17,8 @@ class Robot:
             self.place(int(x_str), int(y_str), f)
         elif cmd == "MOVE":
             self.move()
+        elif cmd == "REPORT":
+            print(self.report())
         elif cmd == "LEFT":
             self.left()
 
@@ -34,6 +36,9 @@ class Robot:
             self.x = self.x + 1
         elif self.f == "WEST":
             self.x = self.x - 1
+
+    def report(self):
+        return f"{self.x},{self.y},{self.f}"
 
     def left(self):
         self.f = LEFT[self.f]
