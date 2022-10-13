@@ -42,6 +42,12 @@ def test_process_command_left(mocker: MockFixture, placed_robot):
     mock_left.assert_called_once()
 
 
+def test_process_command_right(mocker: MockFixture, placed_robot):
+    mock_right = mocker.patch('toy_robot.core.Robot.right')
+    placed_robot.process_command("RIGHT")
+    mock_right.assert_called_once()
+
+
 def test_place():
     robot = Robot()
     robot.place(0, 0, "NORTH")
@@ -72,6 +78,21 @@ def test_left(f, new_f):
     robot = Robot()
     robot.process_command(f"PLACE 0,0,{f}")
     robot.process_command("LEFT")
+    assert robot.x == 0
+    assert robot.y == 0
+    assert robot.f == new_f
+
+
+@pytest.mark.parametrize("f,new_f", [
+    ("NORTH", "EAST"),
+    ("EAST", "SOUTH"),
+    ("SOUTH", "WEST"),
+    ("WEST", "NORTH"),
+])
+def test_right(f, new_f):
+    robot = Robot()
+    robot.process_command(f"PLACE 0,0,{f}")
+    robot.right()
     assert robot.x == 0
     assert robot.y == 0
     assert robot.f == new_f

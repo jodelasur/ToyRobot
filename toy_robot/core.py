@@ -3,6 +3,7 @@ import re
 # Directions, ordered clockwise
 DIRECTIONS = ["NORTH", "EAST", "SOUTH", "WEST"]
 LEFT = {DIRECTIONS[i]: DIRECTIONS[(i - 1) % len(DIRECTIONS)] for i in range(len(DIRECTIONS))}
+RIGHT = {DIRECTIONS[i]: DIRECTIONS[(i + 1) % len(DIRECTIONS)] for i in range(len(DIRECTIONS))}
 
 
 class Robot:
@@ -21,6 +22,8 @@ class Robot:
             print(self.report())
         elif cmd == "LEFT":
             self.left()
+        elif cmd == "RIGHT":
+            self.right()
 
     def place(self, x: int, y: int, f: str):
         self.x = x
@@ -42,3 +45,6 @@ class Robot:
 
     def left(self):
         self.f = LEFT[self.f]
+
+    def right(self):
+        self.f = RIGHT[self.f]
