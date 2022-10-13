@@ -18,6 +18,18 @@ def test_process_command_place(mocker: MockFixture):
     mock_place.assert_called_once_with(0, 0, 'NORTH')
 
 
+def test_process_command_ignore_until_first_place():
+    robot = Robot()
+
+    # Ignore following commands since place command hasn't been done yet
+    robot.process_command("MOVE")
+    robot.process_command("LEFT")
+    robot.process_command("RIGHT")
+    robot.process_command("REPORT")
+
+    assert (robot.x, robot.y, robot.f) == (None, None, None)
+
+
 def test_process_command_move(mocker: MockFixture, placed_robot):
     mock_move = mocker.patch('toy_robot.core.Robot.move')
     placed_robot.process_command("MOVE")

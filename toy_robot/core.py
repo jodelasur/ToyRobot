@@ -17,7 +17,11 @@ class Robot:
         if m := re.match(r"PLACE (\d),(\d),(\w+)", cmd):
             x_str, y_str, f = m.groups()
             self.place(int(x_str), int(y_str), f)
-        elif cmd == "MOVE":
+
+        if any([item is None for item in (self.x, self.y, self.f)]):
+            return
+
+        if cmd == "MOVE":
             self.move()
         elif cmd == "REPORT":
             print(self.report())
