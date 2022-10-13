@@ -4,6 +4,7 @@ import re
 DIRECTIONS = ["NORTH", "EAST", "SOUTH", "WEST"]
 LEFT = {DIRECTIONS[i]: DIRECTIONS[(i - 1) % len(DIRECTIONS)] for i in range(len(DIRECTIONS))}
 
+
 class Robot:
     def __init__(self):
         self.x = None
@@ -13,18 +14,18 @@ class Robot:
     def process_command(self, cmd):
         if m := re.match(r"PLACE (\d),(\d),(\w+)", cmd):
             x_str, y_str, f = m.groups()
-            self._place(int(x_str), int(y_str), f)
+            self.place(int(x_str), int(y_str), f)
         elif cmd == "MOVE":
-            self._move()
+            self.move()
         elif cmd == "LEFT":
-            self._left()
+            self.left()
 
-    def _place(self, x: int, y: int, f: str):
+    def place(self, x: int, y: int, f: str):
         self.x = x
         self.y = y
         self.f = f
 
-    def _move(self):
+    def move(self):
         if self.f == "NORTH":
             self.y = self.y + 1
         elif self.f == "SOUTH":
@@ -34,5 +35,5 @@ class Robot:
         elif self.f == "WEST":
             self.x = self.x - 1
 
-    def _left(self):
+    def left(self):
         self.f = LEFT[self.f]
