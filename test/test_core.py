@@ -62,10 +62,16 @@ def test_report(placed_robot):
     assert result == "0,0,NORTH"
 
 
-def test_left():
+@pytest.mark.parametrize("f,new_f", [
+    ("NORTH", "WEST"),
+    ("EAST", "NORTH"),
+    ("SOUTH", "EAST"),
+    ("WEST", "SOUTH"),
+])
+def test_left(f, new_f):
     robot = Robot()
-    robot.process_command("PLACE 0,0,NORTH")
+    robot.process_command(f"PLACE 0,0,{f}")
     robot.process_command("LEFT")
     assert robot.x == 0
     assert robot.y == 0
-    assert robot.f == "WEST"
+    assert robot.f == new_f
