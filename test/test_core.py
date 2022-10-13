@@ -52,34 +52,34 @@ def test_process_command_right(mocker: MockFixture, placed_robot):
 def test_place():
     robot = Robot()
     robot.place(0, 0, "NORTH")
-    assert robot.x == 0
-    assert robot.y == 0
-    assert robot.f == "NORTH"
+    assert robot._x == 0
+    assert robot._y == 0
+    assert robot._f == "NORTH"
 
 
 def test_place_again_after_placed(placed_robot):
     placed_robot.place(2, 2, "NORTH")
-    assert (placed_robot.x, placed_robot.y, placed_robot.f) == (2, 2, "NORTH")
+    assert (placed_robot._x, placed_robot._y, placed_robot._f) == (2, 2, "NORTH")
 
 
 @pytest.mark.parametrize('x', [-1, DIMENSIONS])
 def test_place_ignore_if_x_out_of_bounds(x):
     robot = Robot()
     robot.place(x, 0, "NORTH")
-    assert (robot.x, robot.y, robot.f) == (None, None, None)
+    assert (robot._x, robot._y, robot._f) == (None, None, None)
 
 
 @pytest.mark.parametrize('y', [-1, DIMENSIONS])
 def test_place_ignore_if_y_out_of_bounds(y):
     robot = Robot()
     robot.place(0, y, "NORTH")
-    assert (robot.x, robot.y, robot.f) == (None, None, None)
+    assert (robot._x, robot._y, robot._f) == (None, None, None)
 
 
 def test_place_invalid_f_ignored():
     robot = Robot()
     robot.place(0, 0, "SOMEWHERE")
-    assert (robot.x, robot.y, robot.f) == (None, None, None)
+    assert (robot._x, robot._y, robot._f) == (None, None, None)
 
 
 @pytest.mark.parametrize('f,new_x,new_y', [
@@ -92,7 +92,7 @@ def test_move(f, new_x, new_y):
     robot = Robot()
     robot.place(1, 3, f)
     robot.move()
-    assert (robot.x, robot.y, robot.f) == (new_x, new_y, f)
+    assert (robot._x, robot._y, robot._f) == (new_x, new_y, f)
 
 
 @pytest.mark.parametrize('x,y,f', [
@@ -107,7 +107,7 @@ def test_move_prevent_destruction(x, y, f):
     robot.move()
 
     # Robot doesn't move; fall to destruction prevented
-    assert (robot.x, robot.y, robot.f) == (x, y, f)
+    assert (robot._x, robot._y, robot._f) == (x, y, f)
 
 
 def test_report(placed_robot):
@@ -125,9 +125,9 @@ def test_left(f, new_f):
     robot = Robot()
     robot.place(0, 0, f)
     robot.left()
-    assert robot.x == 0
-    assert robot.y == 0
-    assert robot.f == new_f
+    assert robot._x == 0
+    assert robot._y == 0
+    assert robot._f == new_f
 
 
 @pytest.mark.parametrize("f,new_f", [
@@ -140,9 +140,9 @@ def test_right(f, new_f):
     robot = Robot()
     robot.place(0, 0, f)
     robot.right()
-    assert robot.x == 0
-    assert robot.y == 0
-    assert robot.f == new_f
+    assert robot._x == 0
+    assert robot._y == 0
+    assert robot._f == new_f
 
 
 def test_ignore_until_first_place():
@@ -154,7 +154,7 @@ def test_ignore_until_first_place():
     robot.right()
     robot.report()
 
-    assert (robot.x, robot.y, robot.f) == (None, None, None)
+    assert (robot._x, robot._y, robot._f) == (None, None, None)
 
 
 def test_bug_1():
