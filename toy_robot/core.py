@@ -2,8 +2,12 @@ import re
 
 # Directions, ordered clockwise
 DIRECTIONS = ["NORTH", "EAST", "SOUTH", "WEST"]
-LEFT = {DIRECTIONS[i]: DIRECTIONS[(i - 1) % len(DIRECTIONS)] for i in range(len(DIRECTIONS))}
-RIGHT = {DIRECTIONS[i]: DIRECTIONS[(i + 1) % len(DIRECTIONS)] for i in range(len(DIRECTIONS))}
+LEFT = {
+    DIRECTIONS[i]: DIRECTIONS[(i - 1) % len(DIRECTIONS)] for i in range(len(DIRECTIONS))
+}
+RIGHT = {
+    DIRECTIONS[i]: DIRECTIONS[(i + 1) % len(DIRECTIONS)] for i in range(len(DIRECTIONS))
+}
 
 DIMENSIONS = 5
 
