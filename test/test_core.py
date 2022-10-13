@@ -76,8 +76,8 @@ def test_report(placed_robot):
 ])
 def test_left(f, new_f):
     robot = Robot()
-    robot.process_command(f"PLACE 0,0,{f}")
-    robot.process_command("LEFT")
+    robot.place(0, 0, f)
+    robot.left()
     assert robot.x == 0
     assert robot.y == 0
     assert robot.f == new_f
@@ -91,7 +91,7 @@ def test_left(f, new_f):
 ])
 def test_right(f, new_f):
     robot = Robot()
-    robot.process_command(f"PLACE 0,0,{f}")
+    robot.place(0, 0, f)
     robot.right()
     assert robot.x == 0
     assert robot.y == 0
