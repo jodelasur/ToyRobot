@@ -47,7 +47,7 @@ class Robot:
         elif self.f == "WEST":
             new_pos = self.x - 1, self.y
 
-        # If new_pos is out of bounds
+        # If new_pos is not out of bounds
         if not any([coord < 0 or coord >= DIMENSIONS for coord in new_pos]):
             self.x, self.y = new_pos
 
