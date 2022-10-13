@@ -57,11 +57,17 @@ def test_place():
     assert robot.f == "NORTH"
 
 
-def test_move(placed_robot):
-    placed_robot.move()
-    assert placed_robot.x == 0
-    assert placed_robot.y == 1
-    assert placed_robot.f == "NORTH"
+@pytest.mark.parametrize('f,place_after_move', [
+    ("NORTH", (1, 2, "NORTH")),
+    ("EAST", (2, 1, "EAST")),
+    ("SOUTH", (1, 0, "SOUTH")),
+    ("WEST", (0, 1, "WEST")),
+])
+def test_move(f, place_after_move):
+    robot = Robot()
+    robot.place(1, 1, f)
+    robot.move()
+    assert (robot.x, robot.y, robot.f) == place_after_move
 
 
 @pytest.mark.parametrize('destruction_place_args', [
