@@ -10,6 +10,12 @@ LEFT = {
 RIGHT = {
     DIRECTIONS[i]: DIRECTIONS[(i + 1) % len(DIRECTIONS)] for i in range(len(DIRECTIONS))
 }
+MOVE_FNS = {
+    "NORTH": lambda x, y: (x, y + 1),
+    "SOUTH": lambda x, y: (x, y - 1),
+    "EAST": lambda x, y: (x + 1, y),
+    "WEST": lambda x, y: (x - 1, y),
+}
 
 
 class App:
@@ -94,18 +100,7 @@ class Robot:
 
     @ignore_until_placed
     def move(self):
-        new_pos = self._x, self._y
-
-        if self._f == "NORTH":
-            new_pos = self._x, self._y + 1
-        elif self._f == "SOUTH":
-            new_pos = self._x, self._y - 1
-        elif self._f == "EAST":
-            new_pos = self._x + 1, self._y
-        elif self._f == "WEST":
-            new_pos = self._x - 1, self._y
-
-        self._x, self._y = new_pos
+        self._x, self._y = MOVE_FNS[self._f](self._x, self._y)
 
     @ignore_until_placed
     def left(self):
