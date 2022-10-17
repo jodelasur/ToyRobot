@@ -3,7 +3,6 @@ Feature: Toy Robot App
   # Rule: Any movement that would result in the robot falling from the table must be prevented,
   #       however further valid movement commands must still be allowed.
 
-  @current
   Scenario Outline: Prevent robot from falling
     Given a robot placed at <x>,<y>,<f>
     When a user gives the MOVE command
