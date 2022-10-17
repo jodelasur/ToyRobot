@@ -1,6 +1,6 @@
 from pytest_bdd import given, parsers, scenarios, then, when
 
-from toy_robot.core_v2 import App, CommandIgnored
+from toy_robot.core_v2 import App, CommandIgnored, Robot
 
 scenarios("../features/toy_robot.feature")
 
@@ -138,3 +138,26 @@ def report_result(app_with_placed_robot):
 @then("the app reports <position_csv>")
 def step_impl(report_result, position_csv):
     assert report_result == position_csv
+
+
+@given("a robot not on the table", target_fixture="robot_not_in_table")
+def robot_not_in_table():
+    return Robot()
+
+
+@when(
+    parsers.parse("a {command} is given to the robot"),
+    target_fixture="raised_exception",
+)
+@when("a <command> is given to the robot")
+def raised_exception(robot_not_in_table, command):
+    try:
+        command_fn = getattr(robot_not_in_table, command.lower())
+        command_fn()
+    except CommandIgnored as e:
+        return e
+
+
+@then("the robot ignores the command")
+def step_impl(raised_exception):
+    assert isinstance(raised_exception, CommandIgnored)

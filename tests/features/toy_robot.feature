@@ -115,3 +115,17 @@ Feature: Toy Robot App
     Examples:
       | x | y | f     | position_csv |
       | 0 | 0 | NORTH | 0,0,NORTH    |
+
+  # Rule: A robot that is not on the table can choose to ignore the MOVE, LEFT, RIGHT and REPORT commands.
+
+  Scenario Outline: Robot ignores command if not on table
+    Given a robot not on the table
+    When a <command> is given to the robot
+    Then the robot ignores the command
+
+    Examples:
+      | command         |
+      | MOVE            |
+      | LEFT            |
+      | RIGHT           |
+      | REPORT          |
