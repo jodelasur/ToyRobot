@@ -1,30 +1,22 @@
 import fileinput
 
+import pytest
+
 from cli import main
 
 
-def test_example_a(monkeypatch, capsys):
-    monkeypatch.setattr(
-        fileinput, "input", open("tests/example_inputs/a.txt").readlines
-    )
-    main()
+@pytest.mark.parametrize(
+    "input_filepath,expected_out",
+    [
+        ("tests/example_inputs/a.txt", "0,1,NORTH\n"),
+        ("tests/example_inputs/b.txt", "0,0,WEST\n"),
+        ("tests/example_inputs/c.txt", "3,3,NORTH\n"),
+    ],
+)
+def test_example_inputs(monkeypatch, capsys, input_filepath, expected_out):
+    with open(input_filepath) as input_file:
+        monkeypatch.setattr(fileinput, "input", input_file.readlines)
+        main()
+
     captured = capsys.readouterr()
-    assert captured.out == "0,1,NORTH\n"
-
-
-def test_example_b(monkeypatch, capsys):
-    monkeypatch.setattr(
-        fileinput, "input", open("tests/example_inputs/b.txt").readlines
-    )
-    main()
-    captured = capsys.readouterr()
-    assert captured.out == "0,0,WEST\n"
-
-
-def test_example_c(monkeypatch, capsys):
-    monkeypatch.setattr(
-        fileinput, "input", open("tests/example_inputs/c.txt").readlines
-    )
-    main()
-    captured = capsys.readouterr()
-    assert captured.out == "3,3,NORTH\n"
+    assert captured.out == expected_out
