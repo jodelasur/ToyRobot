@@ -27,7 +27,7 @@ class App:
         elif cmd == "RIGHT":
             self._table.right_robot()
         elif cmd == "REPORT":
-            self._table.report_robot()
+            return self._table.report_robot()
         else:
             raise CommandIgnored("Invalid command")
 
@@ -64,7 +64,7 @@ class Table:
         self._robot.right()
 
     def report_robot(self):
-        self._robot.report()
+        return self._robot.report()
 
 
 def ignore_until_placed(function):
@@ -117,7 +117,7 @@ class Robot:
 
     @ignore_until_placed
     def report(self):
-        pass
+        return f"{self._x},{self._y},{self._f}"
 
     @property
     def is_placed(self):

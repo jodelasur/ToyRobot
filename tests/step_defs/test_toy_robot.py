@@ -127,3 +127,14 @@ def step_impl(app_with_placed_robot, x, y):
 @when("a user gives the RIGHT command")
 def step_impl(app_with_placed_robot):
     app_with_placed_robot.process_command("RIGHT")
+
+
+@when("a user gives the REPORT command", target_fixture="report_result")
+def report_result(app_with_placed_robot):
+    return app_with_placed_robot.process_command("REPORT")
+
+
+@then(parsers.parse("the app reports {position_csv}"))
+@then("the app reports <position_csv>")
+def step_impl(report_result, position_csv):
+    assert report_result == position_csv
