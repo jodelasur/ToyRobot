@@ -1,5 +1,23 @@
 Feature: Toy Robot App
 
+  # Rule: Any movement that would result in the robot falling from the table must be prevented,
+  #       however further valid movement commands must still be allowed.
+
+  @current
+  Scenario Outline: Prevent robot from falling
+    Given a robot placed at <x>,<y>,<f>
+    When a user gives the MOVE command
+    Then the command is ignored
+    And the robot does not move from <x>,<y>
+    And the robot faces <f>
+
+    Examples:
+      | x | y | f     |
+      | 2 | 4 | NORTH |
+      | 2 | 0 | SOUTH |
+      | 4 | 2 | EAST  |
+      | 0 | 2 | WEST  |
+
   # Rule: PLACE will put the toy robot on the table in position X,Y and facing NORTH, SOUTH, EAST or WEST.
 
   Scenario: Valid PLACE command

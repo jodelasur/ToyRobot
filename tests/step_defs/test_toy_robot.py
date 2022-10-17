@@ -68,18 +68,21 @@ def step_impl(raised_exception):
     assert raised_exception is None
 
 
-@given(parsers.parse("a robot placed at 1,3,{f}"), target_fixture="app_robot_at_1_3")
+@given(parsers.parse("a robot placed at 1,3,{f}"), target_fixture="app")
 @given("a robot placed at 1,3,<f>")
-def app_robot_at_1_3(f):
+def app(f):
     app = App()
     app.process_command(f"PLACE 1,3,{f}")
 
     return app
 
 
-@when("a user gives the MOVE command")
-def step_impl(app_robot_at_1_3):
-    app_robot_at_1_3.process_command("MOVE")
+@when("a user gives the MOVE command", target_fixture="raised_exception")
+def raised_exception(app):
+    try:
+        app.process_command("MOVE")
+    except CommandIgnored as e:
+        return e
 
 
 @then(
@@ -92,46 +95,46 @@ def step_impl(app_robot_at_1_3):
     "the robot moves one unit forward in the direction it is currently facing, "
     "at <new_x>,<new_y>,<f>"
 )
-def step_impl(app_robot_at_1_3, new_x, new_y, f):
-    assert app_robot_at_1_3.table.robot.position == (new_x, new_y, f)
+def step_impl(app, new_x, new_y, f):
+    assert app.table.robot.position == (new_x, new_y, f)
 
 
 @given(
     parsers.parse("a robot placed at {x},{y},{f}"),
-    target_fixture="app_with_placed_robot",
+    target_fixture="app",
 )
 @given("a robot placed at <x>,<y>,<f>")
-def app_with_placed_robot(x, y, f):
+def app(x, y, f):
     app = App()
     app.process_command(f"PLACE {x},{y},{f}")
     return app
 
 
 @when("a user gives the LEFT command")
-def step_impl(app_with_placed_robot):
-    app_with_placed_robot.process_command("LEFT")
+def step_impl(app):
+    app.process_command("LEFT")
 
 
 @then(parsers.parse("the robot faces {new_f}"))
 @then("the robot rotates 90 degrees to the left, now facing <new_f>")
-def step_impl(app_with_placed_robot, new_f):
-    assert app_with_placed_robot.table.robot.position[2] == new_f
+def step_impl(app, new_f):
+    assert app.table.robot.position[2] == new_f
 
 
 @then(parsers.parse("the robot does not move from {x:d},{y:d}"))
 @then("the robot does not move from <x>,<y>")
-def step_impl(app_with_placed_robot, x, y):
-    assert app_with_placed_robot.table.robot.position[:2] == (x, y)
+def step_impl(app, x, y):
+    assert app.table.robot.position[:2] == (x, y)
 
 
 @when("a user gives the RIGHT command")
-def step_impl(app_with_placed_robot):
-    app_with_placed_robot.process_command("RIGHT")
+def step_impl(app):
+    app.process_command("RIGHT")
 
 
 @when("a user gives the REPORT command", target_fixture="report_result")
-def report_result(app_with_placed_robot):
-    return app_with_placed_robot.process_command("REPORT")
+def report_result(app):
+    return app.process_command("REPORT")
 
 
 @then(parsers.parse("the app reports {position_csv}"))

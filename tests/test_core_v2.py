@@ -11,6 +11,13 @@ class TestApp:
 
         assert app.table.robot.position == (1, 4, "NORTH")
 
+    def test_prevent_robot_from_falling(self):
+        app = App()
+        app.process_command("PLACE 2,4,NORTH")
+
+        with pytest.raises(CommandIgnored):
+            app.process_command("MOVE")
+
     def test_report(self):
         app = App()
         app.process_command("PLACE 1,3,NORTH")
@@ -33,6 +40,13 @@ class TestTable:
         table.move_robot()
 
         assert table.robot.position == (1, 4, "NORTH")
+
+    def test_prevent_robot_from_falling(self):
+        table = Table()
+        table.place_robot(2, 4, "NORTH")
+
+        with pytest.raises(CommandIgnored):
+            table.move_robot()
 
     def test_report_robot(self):
         table = Table()

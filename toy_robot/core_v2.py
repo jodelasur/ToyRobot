@@ -61,6 +61,10 @@ class Table:
         return any([coord < 0 or coord >= self._dimensions for coord in (x, y)])
 
     def move_robot(self):
+        x, y = self._robot.compute_move()
+        if self.is_out_of_bounds(x, y):
+            raise CommandIgnored("New position out of bounds")
+
         self._robot.move()
 
     def left_robot(self):
@@ -100,7 +104,11 @@ class Robot:
 
     @ignore_until_placed
     def move(self):
-        self._x, self._y = MOVE_FNS[self._f](self._x, self._y)
+        self._x, self._y = self.compute_move()
+
+    @ignore_until_placed
+    def compute_move(self):
+        return MOVE_FNS[self._f](self._x, self._y)
 
     @ignore_until_placed
     def left(self):
