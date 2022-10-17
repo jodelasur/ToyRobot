@@ -28,3 +28,13 @@ def step_impl(app):
 @when(parsers.parse('a user gives the command "PLACE {invalid_pos}"'))
 def step_impl(app, invalid_pos):
     app.process_command(f"PLACE {invalid_pos}")
+
+
+@when(parsers.parse("a user gives the command PLACE 0,0,{f}"))
+def step_impl(app, f):
+    app.process_command(f"PLACE 0,0,{f}")
+
+
+@then(parsers.parse("the robot is placed in 0,0,{f}"))
+def step_impl(app, f):
+    assert app.table.robot.position == (0, 0, f)

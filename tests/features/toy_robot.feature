@@ -20,3 +20,15 @@ Feature: Toy Robot App
         | 0,5,NORTH   |
         | 0,0,INVALID |
 
+    Scenario Outline: Valid f values
+      Given a 5x5 table with no robots
+      When a user gives the command PLACE 0,0,<f>
+      Then the robot is placed in 0,0,<f>
+
+      Examples:
+        | f     |
+        | NORTH |
+        | SOUTH |
+        | EAST  |
+        | WEST  |
+
