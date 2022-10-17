@@ -1,13 +1,17 @@
 import fileinput
 
-from toy_robot.core import Robot
+from toy_robot.core_v2 import App, CommandIgnored
 
 
 def main():
-    robot = Robot()
+    app = App()
     for line in fileinput.input():
-        if result := robot.process_command(line.strip()):
-            print(result)
+        try:
+            if result := app.process_command(line.strip()):
+                print(result)
+        except CommandIgnored:
+            # Silently ignore commands
+            pass
 
 
 if __name__ == "__main__":
