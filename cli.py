@@ -1,6 +1,6 @@
 import fileinput
 
-from toy_robot.core_v2 import App, CommandIgnored
+from toy_robot.core import App, CommandIgnored
 
 
 def main():

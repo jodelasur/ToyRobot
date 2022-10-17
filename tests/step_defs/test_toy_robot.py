@@ -1,6 +1,6 @@
 from pytest_bdd import given, parsers, scenarios, then, when
 
-from toy_robot.core_v2 import App, CommandIgnored, Robot
+from toy_robot.core import App, CommandIgnored, Robot
 
 scenarios("../features/toy_robot.feature")
 

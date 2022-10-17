@@ -1,6 +1,6 @@
 import pytest
 
-from toy_robot.core_v2 import App, CommandIgnored, Robot, Table
+from toy_robot.core import App, CommandIgnored, Robot, Table
 
 
 class TestApp:
