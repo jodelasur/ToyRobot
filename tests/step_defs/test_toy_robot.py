@@ -66,3 +66,31 @@ def step_impl(app, raised_exception):
 @then("the command is processed")
 def step_impl(raised_exception):
     assert raised_exception is None
+
+
+@given(parsers.parse("a robot placed at 1,3,{f}"), target_fixture="app_robot_at_1_3")
+@given("a robot placed at 1,3,<f>")
+def app_robot_at_1_3(f):
+    app = App()
+    app.process_command(f"PLACE 1,3,{f}")
+
+    return app
+
+
+@when("a user gives the MOVE command")
+def step_impl(app_robot_at_1_3):
+    app_robot_at_1_3.process_command("MOVE")
+
+
+@then(
+    parsers.parse(
+        "the robot moves one unit forward in the direction it is currently facing, "
+        "at {new_x:d},{new_y:d},{f}"
+    )
+)
+@then(
+    "the robot moves one unit forward in the direction it is currently facing, "
+    "at <new_x>,<new_y>,<f>"
+)
+def step_impl(app_robot_at_1_3, new_x, new_y, f):
+    assert app_robot_at_1_3.table.robot.position == (new_x, new_y, f)

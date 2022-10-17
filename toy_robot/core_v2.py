@@ -88,7 +88,18 @@ class Robot:
 
     @ignore_until_placed
     def move(self):
-        pass
+        new_pos = self._x, self._y
+
+        if self._f == "NORTH":
+            new_pos = self._x, self._y + 1
+        elif self._f == "SOUTH":
+            new_pos = self._x, self._y - 1
+        elif self._f == "EAST":
+            new_pos = self._x + 1, self._y
+        elif self._f == "WEST":
+            new_pos = self._x - 1, self._y
+
+        self._x, self._y = new_pos
 
     @ignore_until_placed
     def left(self):

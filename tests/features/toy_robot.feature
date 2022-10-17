@@ -61,3 +61,17 @@ Feature: Toy Robot App
       | RIGHT           |
       | REPORT          |
       | PLACE 2,2,NORTH |
+
+  # Rule: MOVE will move the toy robot one unit forward in the direction it is currently facing.
+
+  Scenario Outline: MOVE command
+    Given a robot placed at 1,3,<f>
+    When a user gives the MOVE command
+    Then the robot moves one unit forward in the direction it is currently facing, at <new_x>,<new_y>,<f>
+
+    Examples:
+      | f     | new_x | new_y |
+      | NORTH | 1     | 4     |
+      | EAST  | 2     | 3     |
+      | SOUTH | 1     | 2     |
+      | WEST  | 0     | 3     |
