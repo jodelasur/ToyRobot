@@ -6,7 +6,7 @@ scenarios("../features/toy_robot.feature")
 
 
 @given("a 5x5 table with no robots", target_fixture="app")
-def step_impl():
+def app():
     return App()
 
 
