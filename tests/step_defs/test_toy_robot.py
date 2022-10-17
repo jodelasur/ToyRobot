@@ -38,3 +38,16 @@ def step_impl(app, f):
 @then(parsers.parse("the robot is placed in 0,0,{f}"))
 def step_impl(app, f):
     assert app.table.robot.position == (0, 0, f)
+
+
+@when(
+    parsers.parse("a user gives the command {cmd}"),
+    target_fixture="process_command_result",
+)
+def step_impl(app, cmd):
+    return app.process_command(cmd)
+
+
+@then("the command is ignored")
+def step_impl(app, process_command_result):
+    assert process_command_result["ignored"] is True

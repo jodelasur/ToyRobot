@@ -32,3 +32,32 @@ Feature: Toy Robot App
       | EAST  |
       | WEST  |
 
+  # Rule: It is required that the first command to the robot is a PLACE command, ...
+
+  Scenario Outline: Invalid first command
+    Given a 5x5 table with no robots
+    When a user gives the command <cmd>
+    Then the command is ignored
+
+    Examples:
+      | cmd    |
+      | MOVE   |
+      | LEFT   |
+      | RIGHT  |
+      | REPORT |
+
+#  # Rule: ... after that, any sequence of commands may be issued, in any order, including another PLACE command.
+#
+#  Scenario Outline: Invalid first command
+#    Given a 5x5 table with no robots
+#    When a user gives the command <cmd>
+#    Then the command is ignored
+#
+#    Examples:
+#      | cmd    |
+#      | MOVE   |
+#      | LEFT   |
+#      | RIGHT  |
+#      | REPORT |
+#
+#  # The application should discard all commands in the sequence until a valid PLACE command has been executed.

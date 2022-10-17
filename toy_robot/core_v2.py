@@ -12,6 +12,9 @@ class App:
         if m := re.match(r"PLACE (\d),(\d),(\w+)", cmd):
             x_str, y_str, f = m.groups()
             self._table.place_robot(int(x_str), int(y_str), f)
+            return {"ignored": False, "result": None}
+
+        return {"ignored": True, "result": None}
 
     @property
     def table(self):
