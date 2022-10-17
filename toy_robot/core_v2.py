@@ -12,9 +12,8 @@ class App:
         if m := re.match(r"PLACE (\d),(\d),(\w+)", cmd):
             x_str, y_str, f = m.groups()
             self._table.place_robot(int(x_str), int(y_str), f)
-            return {"ignored": False, "result": None}
-
-        return {"ignored": True, "result": None}
+        else:
+            raise CommandIgnored("Invalid command")
 
     @property
     def table(self):
@@ -32,7 +31,7 @@ class Table:
 
     def place_robot(self, x: int, y: int, f: str):
         if self.is_out_of_bounds(x, y) or f not in DIRECTIONS:
-            return
+            raise CommandIgnored("Invalid place arguments")
 
         self._robot = Robot(x, y, f)
 
@@ -49,3 +48,7 @@ class Robot:
     @property
     def position(self):
         return self._x, self._y, self._f
+
+
+class CommandIgnored(Exception):
+    pass

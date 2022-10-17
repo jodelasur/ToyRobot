@@ -10,7 +10,7 @@ Feature: Toy Robot App
   Scenario Outline: Invalid PLACE command
     Given a 5x5 table with no robots
     When a user gives the command "PLACE <invalid_pos>"
-    Then no robot is placed on the table
+    Then the command is ignored
 
     Examples:
       | invalid_pos |

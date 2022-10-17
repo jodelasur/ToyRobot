@@ -1,6 +1,6 @@
 from pytest_bdd import given, parsers, scenarios, then, when
 
-from toy_robot.core_v2 import App
+from toy_robot.core_v2 import App, CommandIgnored
 
 scenarios("../features/toy_robot.feature")
 
@@ -25,9 +25,15 @@ def step_impl(app):
     assert app.table.robot is None
 
 
-@when(parsers.parse('a user gives the command "PLACE {invalid_pos}"'))
+@when(
+    parsers.parse('a user gives the command "PLACE {invalid_pos}"'),
+    target_fixture="raised_exception",
+)
 def step_impl(app, invalid_pos):
-    app.process_command(f"PLACE {invalid_pos}")
+    try:
+        app.process_command(f"PLACE {invalid_pos}")
+    except CommandIgnored as e:
+        return e
 
 
 @when(parsers.parse("a user gives the command PLACE 0,0,{f}"))
@@ -42,12 +48,15 @@ def step_impl(app, f):
 
 @when(
     parsers.parse("a user gives the command {cmd}"),
-    target_fixture="process_command_result",
+    target_fixture="raised_exception",
 )
 def step_impl(app, cmd):
-    return app.process_command(cmd)
+    try:
+        app.process_command(cmd)
+    except CommandIgnored as e:
+        return e
 
 
 @then("the command is ignored")
-def step_impl(app, process_command_result):
-    assert process_command_result["ignored"] is True
+def step_impl(app, raised_exception):
+    assert isinstance(raised_exception, CommandIgnored)
