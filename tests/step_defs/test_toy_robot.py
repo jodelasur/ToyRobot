@@ -94,3 +94,31 @@ def step_impl(app_robot_at_1_3):
 )
 def step_impl(app_robot_at_1_3, new_x, new_y, f):
     assert app_robot_at_1_3.table.robot.position == (new_x, new_y, f)
+
+
+@given(
+    parsers.parse("a robot placed at {x},{y},{f}"),
+    target_fixture="app_with_placed_robot",
+)
+@given("a robot placed at <x>,<y>,<f>")
+def app_with_placed_robot(x, y, f):
+    app = App()
+    app.process_command(f"PLACE {x},{y},{f}")
+    return app
+
+
+@when("a user gives the LEFT command")
+def step_impl(app_with_placed_robot):
+    app_with_placed_robot.process_command("LEFT")
+
+
+@then(parsers.parse("the robot rotates 90 degrees to the left, now facing {new_f}"))
+@then("the robot rotates 90 degrees to the left, now facing <new_f>")
+def step_impl(app_with_placed_robot, new_f):
+    assert app_with_placed_robot.table.robot.position[2] == new_f
+
+
+@then(parsers.parse("the robot does not move from {x:d},{y:d}"))
+@then("the robot does not move from <x>,<y>")
+def step_impl(app_with_placed_robot, x, y):
+    assert app_with_placed_robot.table.robot.position[:2] == (x, y)

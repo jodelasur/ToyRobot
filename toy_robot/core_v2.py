@@ -4,6 +4,12 @@ import re
 
 # Directions, ordered clockwise
 DIRECTIONS = ["NORTH", "EAST", "SOUTH", "WEST"]
+LEFT = {
+    DIRECTIONS[i]: DIRECTIONS[(i - 1) % len(DIRECTIONS)] for i in range(len(DIRECTIONS))
+}
+RIGHT = {
+    DIRECTIONS[i]: DIRECTIONS[(i + 1) % len(DIRECTIONS)] for i in range(len(DIRECTIONS))
+}
 
 
 class App:
@@ -103,7 +109,7 @@ class Robot:
 
     @ignore_until_placed
     def left(self):
-        pass
+        self._f = LEFT[self._f]
 
     @ignore_until_placed
     def right(self):

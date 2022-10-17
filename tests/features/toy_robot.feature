@@ -75,3 +75,19 @@ Feature: Toy Robot App
       | EAST  | 2     | 3     |
       | SOUTH | 1     | 2     |
       | WEST  | 0     | 3     |
+
+  # Rule: LEFT and RIGHT will rotate the robot 90 degrees in the specified direction without
+  # changing the position of the robot.
+
+  Scenario Outline: LEFT command
+    Given a robot placed at <x>,<y>,<f>
+    When a user gives the LEFT command
+    Then the robot rotates 90 degrees to the left, now facing <new_f>
+    And the robot does not move from <x>,<y>
+
+    Examples:
+      | x | y | f     | new_f |
+      | 2 | 2 | NORTH | WEST  |
+      | 2 | 2 | EAST  | NORTH |
+      | 2 | 2 | SOUTH | EAST  |
+      | 2 | 2 | WEST  | SOUTH |
