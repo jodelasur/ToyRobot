@@ -1,5 +1,8 @@
 import re
 
+# Directions, ordered clockwise
+DIRECTIONS = ["NORTH", "EAST", "SOUTH", "WEST"]
+
 
 class App:
     def __init__(self):
@@ -25,7 +28,13 @@ class Table:
         return self._robot
 
     def place_robot(self, x: int, y: int, f: str):
+        if self.is_out_of_bounds(x, y) or f not in DIRECTIONS:
+            return
+
         self._robot = Robot(x, y, f)
+
+    def is_out_of_bounds(self, x: int, y: int):
+        return any([coord < 0 or coord >= self._dimensions for coord in (x, y)])
 
 
 class Robot:

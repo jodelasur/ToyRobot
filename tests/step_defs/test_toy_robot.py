@@ -1,4 +1,4 @@
-from pytest_bdd import given, scenarios, then, when
+from pytest_bdd import given, parsers, scenarios, then, when
 
 from toy_robot.core_v2 import App
 
@@ -25,8 +25,6 @@ def step_impl(app):
     assert app.table.robot is None
 
 
-@when('a user gives the command "PLACE <invalid_pos>"')
-def step_impl(invalid_pos):
-    raise NotImplementedError(
-        'STEP: When a user gives the command "PLACE <invalid_pos>"'
-    )
+@when(parsers.parse('a user gives the command "PLACE {invalid_pos}"'))
+def step_impl(app, invalid_pos):
+    app.process_command(f"PLACE {invalid_pos}")
