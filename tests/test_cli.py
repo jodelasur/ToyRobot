@@ -5,7 +5,7 @@ from cli import main
 
 def test_example_a(monkeypatch, capsys):
     monkeypatch.setattr(
-        fileinput, "input", open("test/fixtures/example_a_input.txt").readlines
+        fileinput, "input", open("tests/fixtures/example_a_input.txt").readlines
     )
     main()
     captured = capsys.readouterr()
@@ -14,7 +14,7 @@ def test_example_a(monkeypatch, capsys):
 
 def test_example_b(monkeypatch, capsys):
     monkeypatch.setattr(
-        fileinput, "input", open("test/fixtures/example_b_input.txt").readlines
+        fileinput, "input", open("tests/fixtures/example_b_input.txt").readlines
     )
     main()
     captured = capsys.readouterr()
@@ -23,7 +23,7 @@ def test_example_b(monkeypatch, capsys):
 
 def test_example_c(monkeypatch, capsys):
     monkeypatch.setattr(
-        fileinput, "input", open("test/fixtures/example_c_input.txt").readlines
+        fileinput, "input", open("tests/fixtures/example_c_input.txt").readlines
     )
     main()
     captured = capsys.readouterr()
