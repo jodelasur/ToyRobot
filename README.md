@@ -1,6 +1,7 @@
 # Toy Robot - Jodel Asur
 
 ![Build and test](https://github.com/jodelasur/ToyRobot/actions/workflows/build_and_test.yaml/badge.svg)
+![Python supported versions](https://img.shields.io/badge/python-3.8%20%7C%203.9%20%7C%203.10-brightgreen)
 
 My implementation of the coding challenge based on a blog post by Jon Eaves. Read it
 here: https://joneaves.wordpress.com/2014/07/21/toy-robot-coding-test/
