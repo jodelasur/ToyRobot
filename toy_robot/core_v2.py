@@ -113,7 +113,7 @@ class Robot:
 
     @ignore_until_placed
     def right(self):
-        pass
+        self._f = RIGHT[self._f]
 
     @ignore_until_placed
     def report(self):

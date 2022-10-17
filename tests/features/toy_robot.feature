@@ -82,7 +82,7 @@ Feature: Toy Robot App
   Scenario Outline: LEFT command
     Given a robot placed at <x>,<y>,<f>
     When a user gives the LEFT command
-    Then the robot rotates 90 degrees to the left, now facing <new_f>
+    Then the robot faces <new_f>
     And the robot does not move from <x>,<y>
 
     Examples:
@@ -91,3 +91,17 @@ Feature: Toy Robot App
       | 2 | 2 | EAST  | NORTH |
       | 2 | 2 | SOUTH | EAST  |
       | 2 | 2 | WEST  | SOUTH |
+
+  @current
+  Scenario Outline: RIGHT command
+    Given a robot placed at <x>,<y>,<f>
+    When a user gives the RIGHT command
+    Then the robot faces <new_f>
+    And the robot does not move from <x>,<y>
+
+    Examples:
+      | x | y | f     | new_f |
+      | 2 | 2 | NORTH | EAST  |
+      | 2 | 2 | EAST  | SOUTH |
+      | 2 | 2 | SOUTH | WEST  |
+      | 2 | 2 | WEST  | NORTH |

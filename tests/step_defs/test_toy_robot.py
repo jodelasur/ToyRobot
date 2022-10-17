@@ -112,7 +112,7 @@ def step_impl(app_with_placed_robot):
     app_with_placed_robot.process_command("LEFT")
 
 
-@then(parsers.parse("the robot rotates 90 degrees to the left, now facing {new_f}"))
+@then(parsers.parse("the robot faces {new_f}"))
 @then("the robot rotates 90 degrees to the left, now facing <new_f>")
 def step_impl(app_with_placed_robot, new_f):
     assert app_with_placed_robot.table.robot.position[2] == new_f
@@ -122,3 +122,8 @@ def step_impl(app_with_placed_robot, new_f):
 @then("the robot does not move from <x>,<y>")
 def step_impl(app_with_placed_robot, x, y):
     assert app_with_placed_robot.table.robot.position[:2] == (x, y)
+
+
+@when("a user gives the RIGHT command")
+def step_impl(app_with_placed_robot):
+    app_with_placed_robot.process_command("RIGHT")
