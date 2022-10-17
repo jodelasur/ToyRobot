@@ -91,3 +91,7 @@ class TestRobot:
         result = robot.report()
 
         assert result == "1,3,NORTH"
+
+
+def test_fail_github_actions():
+    raise NotImplementedError("I failed. :/")
