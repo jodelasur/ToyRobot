@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import re
 
 # Directions, ordered clockwise
@@ -12,6 +14,14 @@ class App:
         if m := re.match(r"PLACE (\d),(\d),(\w+)", cmd):
             x_str, y_str, f = m.groups()
             self._table.place_robot(int(x_str), int(y_str), f)
+        elif cmd == "MOVE":
+            self._table.move_robot()
+        elif cmd == "LEFT":
+            self._table.left_robot()
+        elif cmd == "RIGHT":
+            self._table.right_robot()
+        elif cmd == "REPORT":
+            self._table.report_robot()
         else:
             raise CommandIgnored("Invalid command")
 
@@ -22,8 +32,8 @@ class App:
 
 class Table:
     def __init__(self):
-        self._dimensions = 5
-        self._robot = None
+        self._dimensions: int = 5
+        self._robot: Robot = Robot()
 
     @property
     def robot(self):
@@ -33,14 +43,41 @@ class Table:
         if self.is_out_of_bounds(x, y) or f not in DIRECTIONS:
             raise CommandIgnored("Invalid place arguments")
 
-        self._robot = Robot(x, y, f)
+        self._robot.place(x, y, f)
 
     def is_out_of_bounds(self, x: int, y: int):
         return any([coord < 0 or coord >= self._dimensions for coord in (x, y)])
 
+    def move_robot(self):
+        self._robot.move()
+
+    def left_robot(self):
+        self._robot.left()
+
+    def right_robot(self):
+        self._robot.right()
+
+    def report_robot(self):
+        self._robot.report()
+
+
+def ignore_until_placed(function):
+    def wrapper(*args, **kwargs):
+        self = args[0]
+        if not self.is_placed:
+            raise CommandIgnored("Robot not yet placed")
+        return function(*args, **kwargs)
+
+    return wrapper
+
 
 class Robot:
-    def __init__(self, x: int, y: int, f: str):
+    def __init__(self):
+        self._x = None
+        self._y = None
+        self._f = None
+
+    def place(self, x: int, y: int, f: str):
         self._x = x
         self._y = y
         self._f = f
@@ -48,6 +85,26 @@ class Robot:
     @property
     def position(self):
         return self._x, self._y, self._f
+
+    @ignore_until_placed
+    def move(self):
+        pass
+
+    @ignore_until_placed
+    def left(self):
+        pass
+
+    @ignore_until_placed
+    def right(self):
+        pass
+
+    @ignore_until_placed
+    def report(self):
+        pass
+
+    @property
+    def is_placed(self):
+        return all([item is not None for item in (self._x, self._y, self._f)])
 
 
 class CommandIgnored(Exception):

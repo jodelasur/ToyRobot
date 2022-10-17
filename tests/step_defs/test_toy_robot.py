@@ -10,6 +10,7 @@ def app():
     return App()
 
 
+@given('a user gives the command "PLACE 0,0,NORTH"')
 @when('a user gives the command "PLACE 0,0,NORTH"')
 def step_impl(app):
     app.process_command("PLACE 0,0,NORTH")
@@ -60,3 +61,8 @@ def step_impl(app, cmd):
 @then("the command is ignored")
 def step_impl(app, raised_exception):
     assert isinstance(raised_exception, CommandIgnored)
+
+
+@then("the command is processed")
+def step_impl(raised_exception):
+    assert raised_exception is None
