@@ -22,6 +22,8 @@ class TestTable:
         table = Table()
         table.place_robot(1, 3, "NORTH")
 
+        table.move_robot()
+
         assert table.robot.position == (1, 4, "NORTH")
 
 
